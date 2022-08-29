@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.cowinvaccineavailibilitycheck"

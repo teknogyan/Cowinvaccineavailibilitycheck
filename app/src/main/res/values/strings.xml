@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Cowin vaccine availibility check</string>
+    <string name="pin_code">Enter Pin Code</string>
+    <string name="select_date">Select Date</string>
+    <string name="state">State</string>
+    <string name="district">District</string>
 </resources>
