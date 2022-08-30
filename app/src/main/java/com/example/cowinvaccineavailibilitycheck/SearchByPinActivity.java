@@ -87,7 +87,7 @@ public class SearchByPinActivity extends AppCompatActivity {
 
                                         Toast.makeText(getApplicationContext()
                                                 , "No doses available at this location on this date. Try some other date or location."
-                                                , Toast.LENGTH_SHORT).show();
+                                                , Toast.LENGTH_LONG).show();
 
                                     }
 
@@ -101,7 +101,7 @@ public class SearchByPinActivity extends AppCompatActivity {
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_LONG).show();
 
                             }
                         });
