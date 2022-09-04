@@ -1,27 +1,31 @@
 package com.example.cowinvaccineavailibilitycheck;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.security.AppUriAuthenticationPolicy;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class HomePageActivity extends AppCompatActivity {
     Button btn_searchByPin;
     Button btn_searchByDistrict;
     EditText et_pinCode;
-    EditText et_state;
-    EditText et_district;
+    AutoCompleteTextView et_state;
+    AutoCompleteTextView et_district;
     TextView tv_date;
 
 
@@ -36,15 +40,13 @@ public class HomePageActivity extends AppCompatActivity {
         et_district = findViewById(R.id.et_district);
         tv_date = findViewById(R.id.et_date);
 
-        btn_searchByPin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pinIntent = new Intent();
-                pinIntent.putExtra("pinCode", et_pinCode.getText().toString());
-                pinIntent.putExtra("date", tv_date.getText().toString());
-                pinIntent.setClass(getApplicationContext(),SearchByPinActivity.class);
-                startActivity(pinIntent);
-            }
+        btn_searchByPin.setOnClickListener(view -> {
+
+            Intent pinIntent = new Intent();
+            pinIntent.putExtra("pinCode", et_pinCode.getText().toString());
+            pinIntent.putExtra("date", tv_date.getText().toString());
+            pinIntent.setClass(getApplicationContext(),SearchByPinActivity.class);
+            startActivity(pinIntent);
         });
 
         tv_date.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +87,20 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+        AutoCompleteTextViewFiller autoCompleteTextViewFiller = new AutoCompleteTextViewFiller(this);
+        ArrayList<String> States = autoCompleteTextViewFiller.getStateNames();
+        ArrayAdapter<String> adapterStates = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item, States);
+        et_state.setAdapter(adapterStates);
+        et_state.setOnItemClickListener((adapterView, view, i, l) -> {
+            Log.i("State Selected", et_state.getText().toString());
+            String id = autoCompleteTextViewFiller.getStateId(et_state.getText().toString());
+            Log.i("State id: ", id);
+            ArrayList<String> districts = autoCompleteTextViewFiller.getDistrictNames(id);
+            ArrayAdapter<String> adapterDistricts = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,districts);
+            adapterDistricts.clear();
+            et_district.setAdapter(adapterDistricts);
 
-
+        });
 
 
     }

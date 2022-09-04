@@ -8,7 +8,7 @@
     tools:context=".SearchByPinActivity">
 
     <ListView
-        android:id="@+id/lv_availability"
+        android:id="@+id/lv_availabilityByPin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"

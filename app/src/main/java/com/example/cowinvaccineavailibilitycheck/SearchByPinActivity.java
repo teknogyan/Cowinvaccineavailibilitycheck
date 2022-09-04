@@ -3,11 +3,14 @@ package com.example.cowinvaccineavailibilitycheck;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,7 +43,7 @@ public class SearchByPinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_by_pin);
         Bundle extras = getIntent().getExtras();
 
-        availability = findViewById(R.id.lv_availability);
+        availability = findViewById(R.id.lv_availabilityByPin);
         pinCodeByUser = extras.getString("pinCode");
         dateByUser = extras.getString("date");
 
