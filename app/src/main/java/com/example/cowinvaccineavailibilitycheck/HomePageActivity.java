@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.security.AppUriAuthenticationPolicy;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -60,13 +58,10 @@ public class HomePageActivity extends AppCompatActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog picker = new DatePickerDialog(HomePageActivity.this
-                        , new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        String datePicked = day + "-" + (month + 1) + "-" + year;
-                        tv_date.setText(datePicked);
-                    }
-                }, year, month, day);
+                        , (datePicker, year1, month1, day1) -> {
+                            String datePicked = day1 + "-" + (month1 + 1) + "-" + year1;
+                            tv_date.setText(datePicked);
+                        }, year, month, day);
                 picker.show();
             }
         });
@@ -85,10 +80,13 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+        // Initialize autoCompleteTextViewFiller and Load the name of States.
         AutoCompleteTextViewFiller autoCompleteTextViewFiller = new AutoCompleteTextViewFiller(this);
         ArrayList<String> States = autoCompleteTextViewFiller.getStateNames();
         ArrayAdapter<String> adapterStates = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item, States);
         et_state.setAdapter(adapterStates);
+
+        // Load districts of the state after the user selects that state.
         et_state.setOnItemClickListener((adapterView, view, i, l) -> {
             Log.i("State Selected", et_state.getText().toString());
             String id = autoCompleteTextViewFiller.getStateId(et_state.getText().toString());
@@ -100,13 +98,12 @@ public class HomePageActivity extends AppCompatActivity {
             et_district.setAdapter(adapterDistricts);
 
         });
-        et_district.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("District selected: ", et_district.getText().toString());
-                distId = autoCompleteTextViewFiller.getDistrictId(et_district.getText().toString());
-                Log.i("District id:", distId);
-            }
+
+       // update distId after the user selects a district.
+        et_district.setOnItemClickListener((parent, view, position, id) -> {
+            Log.i("District selected: ", et_district.getText().toString());
+            distId = autoCompleteTextViewFiller.getDistrictId(et_district.getText().toString());
+            Log.i("District id:", distId);
         });
 
 

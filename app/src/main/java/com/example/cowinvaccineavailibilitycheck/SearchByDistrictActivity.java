@@ -64,6 +64,8 @@ public class SearchByDistrictActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Log.i("Centre Names:", locationName.toString());
+                    if (locationName.isEmpty())
+                        Toast.makeText(SearchByDistrictActivity.this, "No vaccines available", Toast.LENGTH_SHORT).show();
                     adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, locationName);
                     availability.setAdapter(adapter);
                 }
