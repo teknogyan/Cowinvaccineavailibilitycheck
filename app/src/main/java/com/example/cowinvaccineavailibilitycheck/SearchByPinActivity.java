@@ -43,16 +43,11 @@ public class SearchByPinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_by_pin);
         Bundle extras = getIntent().getExtras();
 
-        availability = findViewById(R.id.lv_availabilityByPin);
+        availability = findViewById(R.id.rv_availabilityByPin);
         pinCodeByUser = extras.getString("pinCode");
         dateByUser = extras.getString("date");
 
-        findViewById(R.id.btn_goBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        findViewById(R.id.btn_goBack).setOnClickListener(view -> finish());
 
         locationName.clear();
         url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="
@@ -67,7 +62,7 @@ public class SearchByPinActivity extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        (   Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                             @Override
                             public void onResponse(JSONObject response) {
@@ -113,6 +108,7 @@ public class SearchByPinActivity extends AppCompatActivity {
 
             }
         });
+        executorService.shutdown();
 
 
     }

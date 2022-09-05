@@ -27,6 +27,7 @@ public class HomePageActivity extends AppCompatActivity {
     AutoCompleteTextView et_state;
     AutoCompleteTextView et_district;
     TextView tv_date;
+    String distId;
 
 
     @Override
@@ -70,20 +71,17 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-        btn_searchByDistrict.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btn_searchByDistrict.setOnClickListener(view -> {
 
-                if (TextUtils.isEmpty(et_district.getText().toString())){
-                    Toast.makeText(getApplicationContext(),"Please Enter District Name"
-                            ,Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent districtIntent = new Intent();
-                    districtIntent.putExtra("district", et_district.getText().toString());
-                    districtIntent.putExtra("date", tv_date.getText().toString());
-                    districtIntent.setClass(getApplicationContext(), SearchByDistrictActivity.class);
-                    startActivity(districtIntent);
-                }
+            if (TextUtils.isEmpty(et_district.getText().toString()) || TextUtils.isEmpty(tv_date.getText().toString())){
+                Toast.makeText(getApplicationContext(),"Please Enter Both District Name and Date"
+                        ,Toast.LENGTH_SHORT).show();
+            } else {
+                Intent districtIntent = new Intent();
+                districtIntent.putExtra("districtId", distId);
+                districtIntent.putExtra("date", tv_date.getText().toString());
+                districtIntent.setClass(getApplicationContext(), SearchByDistrictActivity.class);
+                startActivity(districtIntent);
             }
         });
 
@@ -96,10 +94,19 @@ public class HomePageActivity extends AppCompatActivity {
             String id = autoCompleteTextViewFiller.getStateId(et_state.getText().toString());
             Log.i("State id: ", id);
             ArrayList<String> districts = autoCompleteTextViewFiller.getDistrictNames(id);
-            ArrayAdapter<String> adapterDistricts = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,districts);
+            ArrayAdapter<String> adapterDistricts = new ArrayAdapter<>(getApplicationContext()
+                    , R.layout.support_simple_spinner_dropdown_item,districts);
             adapterDistricts.clear();
             et_district.setAdapter(adapterDistricts);
 
+        });
+        et_district.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("District selected: ", et_district.getText().toString());
+                distId = autoCompleteTextViewFiller.getDistrictId(et_district.getText().toString());
+                Log.i("District id:", distId);
+            }
         });
 
 

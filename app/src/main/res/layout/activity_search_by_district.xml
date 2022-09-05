@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Go Back"
+        android:text="@string/go_back"
         android:id="@+id/btn_goBack"
         android:layout_margin="10dp"
         />

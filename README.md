@@ -2,6 +2,6 @@ This is a basic android app that helps you check if the covid vaccines are avail
 given Date.
 The deprecated Asynctask is replaced by Executor and Volley Library is implemented for API call.
 
-TODO 
-  * add functionalites of searching vaccine availability by District name.
+TODO: 
+  * Replace Listview with RecyclerView to display data.
   * Add functionality to verify the user by OTP and download their vaccine certificates.

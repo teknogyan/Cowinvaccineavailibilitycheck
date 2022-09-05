@@ -20,8 +20,8 @@ public class AutoCompleteTextViewFiller{
     private final ArrayList<String> stateNames = new ArrayList<>();
     private final ArrayList<String> districtNames = new ArrayList<>();
     final private Context context;
-    JSONArray array = null;
-    JSONArray distArray;
+    JSONArray stateArray = null;
+    JSONArray distArray = null;
     public AutoCompleteTextViewFiller(Context context){
         this.context = context;
     }
@@ -34,6 +34,7 @@ public class AutoCompleteTextViewFiller{
         loadDistricts(id);
         return districtNames;
     }
+    // Loads the list of states from the API.
     private void loadStates() {
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(() -> {
@@ -41,13 +42,13 @@ public class AutoCompleteTextViewFiller{
             String url = "https://cdn-api.co-vin.in/api/v2/admin/location/states";
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
                 try {
-                    array = response.getJSONArray("states");
+                    stateArray = response.getJSONArray("states");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                for (int i =0; i < array.length();i++){
+                for (int i = 0; i < stateArray.length(); i++){
                     try {
-                        stateNames.add(array.getJSONObject(i).getString("state_name"));
+                        stateNames.add(stateArray.getJSONObject(i).getString("state_name"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -59,14 +60,15 @@ public class AutoCompleteTextViewFiller{
             );
             requestQueue.add(request);
         });
+        service.shutdown();
     }
 
     public String getStateId(String state){
         String id = "35";
-        Log.i("Array:", array.toString());
-        for (int i =0; i < array.length(); i++){
+        Log.i("Array:", stateArray.toString());
+        for (int i = 0; i < stateArray.length(); i++){
             try {
-                JSONObject object = array.getJSONObject(i);
+                JSONObject object = stateArray.getJSONObject(i);
                 if (object.getString("state_name").equals(state)) id = object.getString("state_id");
             } catch (JSONException e) {
                 Log.e("Error", "Couldn't check the state id");
@@ -74,6 +76,7 @@ public class AutoCompleteTextViewFiller{
         }
         return id;
     }
+    // Loads the list of districts from the API.
     private void loadDistricts(String id) {
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(() -> {
@@ -99,5 +102,19 @@ public class AutoCompleteTextViewFiller{
             );
             requestQueue.add(request);
         });
+        service.shutdown();
+    }
+    public String getDistrictId(String district){
+        String id = "709";
+        Log.i("Array:", distArray.toString());
+        for (int i = 0; i < distArray.length(); i++){
+            try {
+                JSONObject object = distArray.getJSONObject(i);
+                if (object.getString("district_name").equals(district)) id = object.getString("district_id");
+            } catch (JSONException e) {
+                Log.e("Error", "Couldn't check the state id");
+            }
+        }
+        return id;
     }
 }
