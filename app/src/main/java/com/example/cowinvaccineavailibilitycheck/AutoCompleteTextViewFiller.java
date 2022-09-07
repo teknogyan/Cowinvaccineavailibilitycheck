@@ -1,4 +1,8 @@
 package com.example.cowinvaccineavailibilitycheck;
+/*
+* This class has methods that allows the HomepageActivity to make an API
+* call and receive data to populate the AutocompleteTextview.
+ * */
 
 import android.content.Context;
 import android.util.Log;

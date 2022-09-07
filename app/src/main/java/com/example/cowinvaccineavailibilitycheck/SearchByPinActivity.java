@@ -56,57 +56,54 @@ public class SearchByPinActivity extends AppCompatActivity {
         Log.i("url",url);
         // Using Executor to run a background thread and request data from the API
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        executorService.execute(() -> {
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (   Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (   Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
 
-                                    JSONArray arr = response.getJSONArray("sessions");
+                                JSONArray arr = response.getJSONArray("sessions");
 
-                                    for (int i = 0; i < arr.length(); i++) {
+                                for (int i = 0; i < arr.length(); i++) {
 
-                                        JSONObject jsonPart = arr.getJSONObject(i);
+                                    JSONObject jsonPart = arr.getJSONObject(i);
 
-                                        locationName.add(i, jsonPart.getString("name") + " has "
-                                                + jsonPart.getString("available_capacity")
-                                                + " doses available");
-                                        Log.i("available locations", Integer.toString(arr.length()));
-                                        Log.i("loc", Integer.toString(i) + " " + locationName.get(i));
+                                    locationName.add(i, jsonPart.getString("name") + " has "
+                                            + jsonPart.getString("available_capacity")
+                                            + " doses available");
+                                    Log.i("available locations", Integer.toString(arr.length()));
+                                    Log.i("loc", Integer.toString(i) + " " + locationName.get(i));
 
-                                    }
-                                    if (locationName.isEmpty()) {
-
-                                        Toast.makeText(getApplicationContext()
-                                                , "No doses available at this location on this date. Try some other date or location."
-                                                , Toast.LENGTH_LONG).show();
-
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
-                                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, locationName);
-                                availability.setAdapter(adapter);
+                                if (locationName.isEmpty()) {
+
+                                    Toast.makeText(getApplicationContext()
+                                            , "No doses available at this location on this date. Try some other date or location."
+                                            , Toast.LENGTH_LONG).show();
+
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        }, new Response.ErrorListener() {
+                            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, locationName);
+                            availability.setAdapter(adapter);
+                        }
+                    }, new Response.ErrorListener() {
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_LONG).show();
 
-                            }
-                        });
+                        }
+                    });
 
-                queue.add(jsonObjectRequest);
+            queue.add(jsonObjectRequest);
 
-            }
         });
         executorService.shutdown();
 
