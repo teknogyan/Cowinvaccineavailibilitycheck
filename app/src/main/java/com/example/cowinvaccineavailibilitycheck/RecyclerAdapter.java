@@ -19,12 +19,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        private final TextView centreName;
+        private final TextView tv_centreName;
         private final TextView tv_dose1;
+        private final TextView tv_vaccineName;
         private final TextView tv_dose2;
 
         public TextView getCentreName() {
-            return centreName;
+            return tv_centreName;
         }
 
         public TextView getTv_dose1() {
@@ -35,9 +36,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             return tv_dose2;
         }
 
+        public TextView getTv_vaccineName() {
+            return tv_vaccineName;
+        }
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            centreName = itemView.findViewById(R.id.tv_centerName);
+            tv_centreName = itemView.findViewById(R.id.tv_centerName);
+            tv_vaccineName = itemView.findViewById(R.id.vaccine_name);
             tv_dose1 = itemView.findViewById(R.id.tv_dose1);
             tv_dose2 = itemView.findViewById(R.id.tv_dose2);
 
@@ -52,8 +58,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.getCentreName().setText( (districtDataArrayList.get(position).getVaccineName() )+ " : "
-                +( districtDataArrayList.get(position).getCentreName())); //fix it
+        holder.getCentreName().setText(districtDataArrayList.get(position).getCentreName());
+        holder.getTv_vaccineName().setText(districtDataArrayList.get(position).getVaccineName());
         holder.getTv_dose1().setText(districtDataArrayList.get(position).getDose1());
         holder.getTv_dose2().setText(districtDataArrayList.get(position).getDose2());
     }
