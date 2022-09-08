@@ -16,38 +16,38 @@
         android:layout_margin="15dp"
         android:minHeight="30dp"
         android:textSize="20sp"
-        android:text="Search by PIN or State and District" />
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_blue_dark"
+        android:text="Check Vaccine Availability In Your Area" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/et_date"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:focusable="false"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:minHeight="48dp"
+        android:hint="@string/select_date"
+        android:textSize="20sp" />
+
         <EditText
             android:id="@+id/et_pinCode"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:layout_weight="1"
             android:hint="@string/pin_code"
             android:inputType="number"
             android:minHeight="48dp" />
-
-
-        <EditText
-            android:id="@+id/et_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:layout_marginTop="10dp"
-            android:layout_margin="15dp"
-            android:minHeight="48dp"
-            android:layout_weight="1"
-            android:hint="@string/select_date"
-            android:textSize="20sp" />
-
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OR"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,6 +55,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
         <AutoCompleteTextView
+            style=""
             android:id="@+id/et_state"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,8 +79,6 @@
     </LinearLayout>
 
 
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,7 +93,8 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:text="Search by PIN"/>
+            android:text="Search by PIN"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:layout_width="match_parent"
@@ -103,7 +103,8 @@
             android:id="@+id/btn_searchByDistrict"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:text="Search by district"/>
+            android:text="Search by district"
+            style="?android:attr/buttonBarButtonStyle" />
 
 
     </LinearLayout>
