@@ -9,3 +9,5 @@ TODO:
 
 Icon Credit:
 <a href="https://www.flaticon.com/free-icons/vaccine" title="vaccine icons">Vaccine icons created by itim2101 - Flaticon</a>
+
+Download apk: https://github.com/teknogyan/Cowinvaccineavailibilitycheck/releases/download/prerelease/Vaccine.Check.apk
